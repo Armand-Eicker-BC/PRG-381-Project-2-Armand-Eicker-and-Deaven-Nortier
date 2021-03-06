@@ -32,9 +32,12 @@ CREATE TABLE Bookings
 	BookingID INT NOT NULL IDENTITY(500,1) PRIMARY KEY,
 	CustomerID INT NOT NULL FOREIGN KEY REFERENCES Customers(CustomerID),
 	EventType Varchar(50) NOT NULL,
-	[Date] DATETIME NOT NULL DEFAULT GetDate(),
+	[Date] Varchar(50) NOT NULL ,
 	Venue Varchar(255) NOT NULL,
 	NumOfPeople INT NOT NULL,
+	TotalDue INT NOT NULL,
+	Balance INT NOT NULL,
+	Confirmation varchar(50) NOT NULL,
 	Decorations INT NOT NULL FOREIGN KEY REFERENCES Decor(DecorID)
 )
 
@@ -43,5 +46,6 @@ GO
 CREATE TABLE BookingFood
 (
     BookingID INT NOT NULL FOREIGN KEY REFERENCES Bookings(BookingID),
-    MenuID INT NOT NULL FOREIGN KEY REFERENCES FoodMenu(MenuID)
+    MenuID INT NOT NULL FOREIGN KEY REFERENCES FoodMenu(MenuID),
+	Quantity INT NOT NULL
 )
