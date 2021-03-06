@@ -1,3 +1,2 @@
-# PRG-381-Project-2-Armand-Eicker-and-Deaven-Nortier
-Extension of Project 1
- 
+# Armand_Eicker_and_Deaven_Nortier_PRG381_Project1
+Project 1
