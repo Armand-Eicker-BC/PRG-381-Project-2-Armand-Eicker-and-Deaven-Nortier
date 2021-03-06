@@ -1,6 +1,12 @@
 package Booking_System.DataAccessLayer;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 import Booking_System.BusinessLogicLayer.Booking;
 import Booking_System.BusinessLogicLayer.Customer;
@@ -46,12 +52,12 @@ public class Datahandler {
         return null;
     }
 
-    
-
     //Method to insert booking details into the Bookings table
     public void insertBooking(Booking book, int cID,int decorID) throws Exception {
         try{
-            sqlQ = "INSERT INTO Bookings VALUES ("+ cID + ",'" + book.getEventType() + "','" + book.getEventDate() + "','" + book.getVenueAddress() + "','" + book.getNumOfPeople() + "','" + decorID + "')";
+            String sDate1=book.getEventDate();
+            java.util.Date date1=new SimpleDateFormat("d/M/yyyy").parse(sDate1);
+            sqlQ = "INSERT INTO Bookings VALUES ("+ cID + ",'" + book.getEventType() + "','" + date1 + "','" + book.getVenueAddress() + "','" + book.getNumOfPeople() + "',"+ book.getTotal() +","+ book.getBalance() +",'"+ book.getStatus()+"','"+ decorID+"')";
             statement.executeUpdate(sqlQ);
         }
         catch (Exception e){
@@ -124,9 +130,10 @@ public class Datahandler {
     //Method to get bookings
     public ResultSet GetBookings() throws Exception {      
         try{
-            sqlQ = "SELECT * FROM dbo.Bookings";
-            resultSet = statement.executeQuery(sqlQ); 
-            return resultSet;          
+            sqlQ = "SELECT * FROM Bookings";
+            ResultSet rs = statement.executeQuery(sqlQ);
+            
+            return rs;          
         } 
         catch (Exception e) {
             System.out.println(e.toString());
@@ -164,9 +171,12 @@ public class Datahandler {
     public void AddBookingFood(int menuItemIDs[],int menuItemQtys[],int bID) throws SQLException {
         for (int i = 0;i<menuItemIDs.length;i++) {
             try 
-            {       
-                sqlQ = "INSERT INTO BookingFood VALUES ("+bID+","+menuItemIDs[i]+","+menuItemQtys[i]+")";
-                statement.executeUpdate(sqlQ);
+            {  
+                if(menuItemIDs[i] != 0) {
+                    sqlQ = "INSERT INTO BookingFood VALUES ("+bID+","+menuItemIDs[i]+","+menuItemQtys[i]+")";
+                    statement.executeUpdate(sqlQ);
+                }    
+                
             }
             catch(Exception e){
                 System.out.println(e.toString());
@@ -205,4 +215,74 @@ public class Datahandler {
         return items;
     }
 
+    public void DeleteM(int bid)throws SQLException{
+        try 
+        {                
+            sqlQ = "DELETE FROM BookingFood WHERE BookingID = " + bid;
+            statement.executeUpdate(sqlQ);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        } 
+    }
+
+    public double GetBalance(int bid)throws SQLException{
+        double balance = 0;
+        try{
+            sqlQ = "SELECT Balance FROM Bookings WHERE BookingID= "+bid+"";
+            resultSet = statement.executeQuery(sqlQ);
+            ResultSet rs = resultSet;
+            while (rs.next()) {
+                balance = rs.getDouble("Balance");
+            }
+             
+            return balance;        
+        } 
+        catch (Exception e) {
+            System.out.println(e.toString());
+        } 
+
+        return balance;  
+    }
+
+    public void UpdateBal(int bid,double amount)throws SQLException{
+        try 
+        {                
+            sqlQ = "UPDATE Bookings SET Balance = " + amount +" WHERE BookingID = " +bid+"";
+            statement.executeUpdate(sqlQ);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        } 
+    }
+
+    public void UpdateStat(int bid)throws SQLException{
+        try 
+        {                
+            sqlQ = "UPDATE Bookings SET Confirmation = 'Confirmed' WHERE BookingID = " +bid+"";
+            statement.executeUpdate(sqlQ);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        } 
+    }
+
+    public double GetTotal(int bid)throws SQLException{
+        double balance = 0;
+        try{
+            sqlQ = "SELECT TotalDue FROM Bookings WHERE BookingID= "+bid+"";
+            resultSet = statement.executeQuery(sqlQ);
+            ResultSet rs = resultSet;
+            while (rs.next()) {
+                balance = rs.getDouble("TotalDue");
+            }
+             
+            return balance;        
+        } 
+        catch (Exception e) {
+            System.out.println(e.toString());
+        } 
+
+        return balance;  
+    }
 }
