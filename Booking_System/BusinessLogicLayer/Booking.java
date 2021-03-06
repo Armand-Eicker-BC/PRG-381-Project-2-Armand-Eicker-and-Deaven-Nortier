@@ -4,23 +4,23 @@ public class Booking {
     //Declare encapsulated attributes
     private String eventType;
     private String eventDate;
-    private String eventTime;
     private String venueAddress;
     private int numOfPeople;
-    private String foodMenu;
-    private String foodQty;
     private String decoration;
+    private double total;
+    private double balance;
+    private String status;
 
     //Constructor
-    public Booking(String ETP, String ED, String ETM, String VA, int NOP, String FM,String fQ,String D) {
+    public Booking(String ETP, String ED, String VA, int NOP,String D,double t,double b,String s) {
         this.eventType = ETP;
         this.eventDate = ED;
-        this.eventTime = ETM;
         this.venueAddress = VA;
         this.numOfPeople = NOP;
-        this.foodMenu = FM;
-        this.foodQty = fQ;
         this.decoration = D;
+        this.total = t;
+        this.balance = b;
+        this.status = s;
     }
 
     //Creating Get and Set Methods
@@ -32,28 +32,13 @@ public class Booking {
         this.eventType = eventType;
     }
 
-    public void setFoodQuatity(String fq) {
-        this.foodQty = fq;
-    }
 
     public String getEventDate() {
         return eventDate;
     }
 
-    public String getFoodqty() {
-        return this.foodQty;
-    }
-
     public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
-    }
-
-    public String getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(String eventTime) {
-        this.eventTime = eventTime;
     }
 
     public String getVenueAddress() {
@@ -72,13 +57,6 @@ public class Booking {
         this.numOfPeople = numOfPeople;
     }
 
-    public String getFoodMenu() {
-        return foodMenu;
-    }
-
-    public void setFoodMenu(String foodMenu) {
-        this.foodMenu = foodMenu;
-    }
 
     public String getDecoration() {
         return decoration;
@@ -90,6 +68,30 @@ public class Booking {
 
     public String BookingsToString(Booking book){
         return "Event Type: " + book.eventType + " Event Date: " + book.eventDate + " Venue: " + book.venueAddress + " Number of People: " + book.numOfPeople + " Decor: " + book.decoration;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
        
 }
